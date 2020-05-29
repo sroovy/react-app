@@ -3,13 +3,13 @@
     <head>
         <script crossorigin src="https://unpkg.com/react@16.7.0/umd/react.development.js"></script>
         <script crossorigin src="https://unpkg.com/react-dom@16.7.0/umd/react-dom.development.js"></script>
+        <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
     </head>
     <body>
         <div id="root"></div> 
         <!-- //result : <div id="root"><button>Like</button></div> -->
-        <script>
+        <script type="text/babel">
             // tag를 만들어 주는 함수 
-            const e = React.createElement;
 
             class LikeButton extends React.Component {
                 constructor(props){
@@ -17,21 +17,23 @@
                     //state : 바뀌는 부분, 바뀔 여지가 있는 부분
                     this.state = {
                         liked: false
-                    }
+                    };
                 }
-                
+
                 // 브라우저 화면
                 render( ) {
-                    return e('button', 
-                        { onClick: () => { this.setState({liked: true})}, type : 'submit' }, 
-                        this.state.liked === true ? "liked" : "like"); 
-                    // <button onClick="() => {console.log('clicked!')}">Like</button> 를 "만들겠다". 
+                    return  <button type="submit" onClick={() => {this.setState({liked: true})}}>
+                                {this.state.liked ? "Liked" : "Like"}
+                            </button>
+                        // JSX ( JS + XML )
+                        // babel이 JSX문법을 React.createElement로 바꿔준다.
                 }
             }
         </script>
-        <script>
+        <script type="text/babel">
             // 웹에 실제로 rendering 해주는 역활, 화면에 실제 반응
-            ReactDOM.render(e(LikeButton), document.querySelector('#root'));
+            // 대문자로 시작하는 태그는 Component
+            ReactDOM.render(<div><LikeButton /><LikeButton /><LikeButton /></div>, document.querySelector('#root'));
         </script>
 
     </body>
