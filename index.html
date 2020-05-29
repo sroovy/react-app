@@ -4,36 +4,64 @@
         <script crossorigin src="https://unpkg.com/react@16.7.0/umd/react.development.js"></script>
         <script crossorigin src="https://unpkg.com/react-dom@16.7.0/umd/react-dom.development.js"></script>
         <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+        <title>react</title>
     </head>
     <body>
         <div id="root"></div> 
-        <!-- //result : <div id="root"><button>Like</button></div> -->
         <script type="text/babel">
-            // tag를 만들어 주는 함수 
 
-            class LikeButton extends React.Component {
+            class GuGuDan extends React.Component {
                 constructor(props){
                     super(props);
-                    //state : 바뀌는 부분, 바뀔 여지가 있는 부분
+                    //변하는 값을 state에 지정
                     this.state = {
-                        liked: false
-                    };
+                        first : Math.ceil(Math.random() * 9),
+                        second : Math.ceil(Math.random() * 9),
+                        value: '',
+                        result: ''
+                    }
                 }
+                // javascript logi -> class의 메소드
+                // form을 submit 했을 때, 구구단 로직 
+                onSubmit = (e) => {
+                    e.preventDefault();
+                    const _value = this.state.first * this.state.second
+                    if(parseInt(this.state.value) === _value){
+                        this.setState({
+                            result: `${_value}은 정답입니다`,
+                            first: Math.ceil(Math.random() * 9),
+                            second: Math.ceil(Math.random() * 9),
+                            value: ''
+                        })
+                    } else {
+                        this.setState({
+                            result: '땡!',
+                            value: ''
+                        });
+                    }
+                };
 
-                // 브라우저 화면
+                onChange = (e) => {
+                    this.setState({value: e.target.value})
+                };
+
+
                 render( ) {
-                    return  <button type="submit" onClick={() => {this.setState({liked: true})}}>
-                                {this.state.liked ? "Liked" : "Like"}
-                            </button>
-                        // JSX ( JS + XML )
-                        // babel이 JSX문법을 React.createElement로 바꿔준다.
+                    return (
+                        <div>
+                            <div>{this.state.first} 곱하기 {this.state.second}은?</div>
+                            <form onSubmit={this.onSubmit}>
+                                <input  type="number" value={this.state.value} onChange={this.onChange}/>
+                                <button>Check!</button>
+                            </form>
+                            <div>{this.state.result}</div>
+                        </div>
+                    );
                 }
             }
         </script>
         <script type="text/babel">
-            // 웹에 실제로 rendering 해주는 역활, 화면에 실제 반응
-            // 대문자로 시작하는 태그는 Component
-            ReactDOM.render(<div><LikeButton /><LikeButton /><LikeButton /></div>, document.querySelector('#root'));
+            ReactDOM.render(<GuGuDan />, document.querySelector('#root'));
         </script>
 
     </body>
