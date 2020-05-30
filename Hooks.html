@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+        <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+        <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+        <title>react</title>
+    </head>
+    <body>
+        <div id="root"></div> 
+        <script type="text/babel">
+            // functional Component
+            // -> setState, ref를 쓰지 않을 경우 사용
+            //const GuGuDan = () => {return <div>Hello, Hooks</div>}
+
+            //Hooks : 함수에 setState, ref 기능을 추가
+            const GuGuDan = () => {
+                // state 선언 방법, 우항에 초기값을 넣어준다. 
+                // 함수내에 선언해준다. 
+                const[first, setFirst] = React.useState(Math.ceil(Math.random() * 9));
+                const[second, setSecond] = React.useState(Math.ceil(Math.random() * 9));
+                const[value, setValue] = React.useState('');
+                const[result, setResult] = React.useState('');
+                const inputRef = React.useRef();
+
+                const onSubmitForm = (e) => {
+                    e.preventDefault();
+                    if(parseInt(value) === first * second){
+                        setFirst((Math.ceil(Math.random() * 9)));
+                        setSecond((Math.ceil(Math.random() * 9)));
+                        setValue('');
+                        setResult("정답입니다.");
+                        inputRef.current.focus();
+                    } else {
+                        setValue('');
+                        setResult("정답이 아닙니다.");
+                        inputRef.current.focus();
+                    }
+                }
+                const onChangeInput = (e) => {
+                    setValue(e.target.value);
+                };
+
+                return (
+                    <React.Fragment>
+                        <div> {first} 곱하기 {second} 는? </div>
+                        <form onSubmit = {onSubmitForm}>
+                            <input type="text" ref={inputRef} onChange = {onChangeInput} value={value}></input>
+                            <button>입력!</button>    
+                        </form>
+                        <div id="result">{result}</div>
+                    </React.Fragment>
+                );
+            }
+
+        </script>
+        <script type="text/babel">
+            ReactDOM.render(<GuGuDan />, document.querySelector('#root'));
+        </script>
+
+    </body>
+</html>
