@@ -9,6 +9,9 @@
     <body>
         <div id="root"></div> 
         <script type="text/babel">
+            // class에서는 state가 바뀌면 render 함수만 재실행 되지만
+            // hooks에서는 GuGuDan 함수 전체가 재 실행된다.
+
             // functional Component
             // -> setState, ref를 쓰지 않을 경우 사용
             //const GuGuDan = () => {return <div>Hello, Hooks</div>}
@@ -26,10 +29,16 @@
                 const onSubmitForm = (e) => {
                     e.preventDefault();
                     if(parseInt(value) === first * second){
+                        // setState를 한번에 처리해준다. -> 비동기
                         setFirst((Math.ceil(Math.random() * 9)));
                         setSecond((Math.ceil(Math.random() * 9)));
                         setValue('');
-                        setResult("정답입니다.");
+                        setResult((prevResult) => {
+                            // console.log("prevResult",prevResult);
+                            // console.log("value",value);
+                            return "정답 : " + value
+                        });
+                        // value는 현재 state의 value값이다. 
                         inputRef.current.focus();
                     } else {
                         setValue('');
@@ -40,7 +49,7 @@
                 const onChangeInput = (e) => {
                     setValue(e.target.value);
                 };
-
+                // class -> className / for -> htmlFor
                 return (
                     <React.Fragment>
                         <div> {first} 곱하기 {second} 는? </div>
@@ -49,6 +58,7 @@
                             <button>입력!</button>    
                         </form>
                         <div id="result">{result}</div>
+
                     </React.Fragment>
                 );
             }
