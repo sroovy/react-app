@@ -1,29 +1,22 @@
 {
   "name": "gugudan",
   "version": "1.0.0",
-  "description": "ganbare",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "dev": "webpack-dev-server --hot"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/sroovy/react-app.git"
-  },
   "author": "suyeon",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/sroovy/react-app/issues"
-  },
-  "homepage": "https://github.com/sroovy/react-app#readme",
   "dependencies": {
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
   },
   "devDependencies": {
+    "@babel/core": "^7.10.2",
     "@babel/plugin-proposal-class-properties": "^7.10.1",
-    "@babel/core": "^7.10.1",
-    "@babel/preset-env": "^7.10.1",
+    "@babel/plugin-syntax-class-properties": "^7.10.1",
+    "@babel/preset-env": "^7.10.2",
     "@babel/preset-react": "^7.10.1",
     "babel-loader": "^8.1.0",
     "react-hot-loader": "^4.12.21",

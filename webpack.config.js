@@ -1,5 +1,6 @@
 const path = require('path');
 // node.js에서 경로를 조작하기 위해 제공
+const webpack = require('webpack');
 
 module.exports = {
     name: 'word-relay-setting',
@@ -24,11 +25,16 @@ module.exports = {
             loader: 'babel-loader',
             options: {
                 presets: ['@babel/preset-env', '@babel/preset-react'],
-                plugins: ['@babel/plugin-proposal-class-properties']
+                plugins: [
+                    '@babel/plugin-proposal-class-properties',
+                    'react-hot-loader/babel'
+            ] //presets : plugin들의 모임
             }
         }]
     },
-
+    //plugins: [
+    //    new webpack.LoaderOptionsPlugin({ debug: true })
+    //], //확장 프로그램
     output: {
         path: path.join(__dirname, 'dist'), //현재폴더/dist로 자동으로 설정해준다.
         filename: 'app.js'
