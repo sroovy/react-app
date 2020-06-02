@@ -1,7 +1,18 @@
-import React from 'react';
+import React, { PureComponent, memo } from 'react';
 
+// class Try extends PureComponent {
+//     render () {
+//         const { tryInfo } = this.props;
+//         return (
+//             <li>
+//                 <div>{tryInfo.try}</div>
+//                 <div>{tryInfo.result}</div>
+//             </li>
+//         )
+//     }
+// }
 
-const Try = ({ tryInfo }) => {
+const Try = memo(({ tryInfo }) => {
     // props 또는 {tryInfo}
     return (
         <li>
@@ -9,6 +20,6 @@ const Try = ({ tryInfo }) => {
             <div>{tryInfo.result}</div>
         </li>
     )
-}
+});
 
 export default Try;
