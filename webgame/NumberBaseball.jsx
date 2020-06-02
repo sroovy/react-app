@@ -1,100 +1,93 @@
-import React from 'react';
-import { Component } from 'react';
-import { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import Try from './Try';
 
 // this를 쓰지 않는 함수는 class 밖으로 뺄 수 있다. 
-function getNumbers () {
-    const candidate = [1, 2 , 3, 4, 5, 6, 7, 8, 9];
+const getNumbers = () => {
+    const candidates = [1, 2 , 3, 4, 5, 6, 7, 8, 9];
     const array = [];
     for (let i = 0; i < 4; i +=1){
-        const chosen = candidate.splice(Math.floor(Math.random() * (9 - i)), 1)[0];
-        array.push(chosen)
+        const chosen = candidates.splice(Math.floor(Math.random() * (9 - i)), 1)[0];
+        array.push(chosen);
     }
-}  //숫자 4개를 겹치지않고 랜덤하게 뽑는 함수
+    return array;
+};  //숫자 4개를 겹치지않고 랜덤하게 뽑는 함수
 
-class NumberBaseball extends Component {
-    state = {
-        result: '',
-        value: '',
-        answer: getNumbers(), // e.g. [1, 3, 5, 7]
-        tries: [], //push xx
-    };
 
-    onSubmitForm = (e) => {
+const NumberBaseball = () => {
+
+    const[result, setResult] = useState('시작합니다');
+    const[value, setValue] = useState('');
+    const[answer, setAnswer] = useState(getNumbers());
+    const[tries, setTries] = useState([]);
+
+    const onSubmitForm = (e) => {
         e.preventDefault();
-        if(this.state.value === this.state.answer.join('')){ // 정답을 맞춘 경우
-            this.setState({
-                result: '홈런',
-                tries: [...this.state.tries, { try: this.state.value, result: '홈런!' }]
-                // ...this.state.tries -> 기존 배열 { 배열 추가 요소 }
-            });
+        if(value === answer.join('')){ // 정답을 맞춘 경우
+            setResult('홈런');
+            setTries((t) => ([
+                ...t,
+                {
+                  try: value,
+                  result: '홈런!',
+                }
+              ]));
             alert('게임을 다시시작합니다.');
-                this.setState({ // 게임초기화
-                    result: '',
-                    value: '',
-                    answer: getNumbers(),
-                    tries: [],
-                });
+            setValue('');
+            setResult('');
+            setAnswer(getNumbers());
+            setTries([]);
         } else {
-            const answerArray = this.state.value.split('').map( (v) => parseInt(v));
+            const answerArray = value.split('').map( (v) => parseInt(v));
             let strike = 0;
             let ball = 0;
-            if (this.state.tries.length >= 9){ //10번 이상 틀렸을 때
-                this.setState({
-                    result: `10번 넘게 틀려서 실패! 답은 ${answer.join('')}였습니다.`
-                });
+            if (tries.length >= 9){ //10번 이상 틀렸을 때
+                setResult(`10번 넘게 틀려서 실패! 답은 ${answer.join(',')}였습니다.`);
                 alert('게임을 다시시작합니다.');
-                this.setState({ // 게임초기화
-                    result: '',
-                    value: '',
-                    answer: getNumbers(),
-                    tries: [],
-                });
+                setValue('');
+                setResult('');
+                setAnswer(getNumbers());
+                setTries([]);
             } else { // 볼, 스트라이크를 알려주는 알고리즘
                 for(let i = 0; i < 4; i += 1) {
-                    if (answerArray[i] === this.state.answer[i]){
+                    if (answerArray[i] === answer[i]){
                         strike += 1;
-                    } else if (this.state.answer.includes(answerArray[i])) {
+                    } else if (answer.includes(answerArray[i])) {
                         ball += 1;
                     }
                 }
-                this.setState({
-                    tries: [...this.state.tries, { try: this.state.value, result: `${strike}스트라이크, ${ball}입니다`}],
-                    value: ''
-                })
+                setTries(t => ([
+                    ...t,
+                    {
+                      try: value,
+                      result: `${strike} 스트라이크, ${ball} 볼입니다.`,
+                    }
+                  ]));
+                setValue('');
             }
         }
     };
 
-    onChangeInput = (e) => {
-        this.setState({
-            value: e.target.value
-        })
+    const onChangeInput = (e) => {
+        setValue(e.target.value);
     };
 
-
-
-    render() {
-        return (
-            <>
-                <h1>{this.state.result}</h1>
-                <form onSubmit={this.onSubmitForm}>
-                    <input type="number" maxLength={4} value={this.state.value} onChange={this.onChangeInput} />
-                    <button>입력</button>
-                </form>
-                <div>시도 : {this.state.tries.length}</div>
-                <ul>
-                    {this.state.tries.map( (v, i) => {
-                        return(
-                        <Try key={`${i + 1}`} tryInfo={v}/> //컴포넌트화 : 코드 가독성, 성능최적화, 재사용성
-                        );
-                    })}
-                </ul>
-            </>
-        )
-    }
-
+    return (
+        <>
+            <h1>{result}</h1>
+            <form onSubmit={onSubmitForm}>
+                <input type="text" maxLength={4} value={value} onChange={onChangeInput} />
+                <button>입력</button>
+            </form>
+            <div>시도 : {tries.length}</div>
+            <ul>
+                {tries.map( (v, i) => {
+                    return(
+                    <Try key={`${i + 1}`} tryInfo={v}/> //컴포넌트화 : 코드 가독성, 성능최적화, 재사용성
+                    );
+                })}
+            </ul>
+        </>
+    )    
 }
 
 
