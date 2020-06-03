@@ -1,91 +1,67 @@
-import React, { Component } from 'react';
+import React, { useState, useRef } from 'react';
 
-class ResponseCheck extends Component {
-    state = {
-        state : 'wating', //color 담당
-        message: '클릭해서 시작하세요.',
-        result: []
-    }
-    
-    // 렌더링 X
-    timeout;
-    startTime;
-    endTime;
+// class의 this속성들을 -> useRef로 표현한다.
+// state를 바꾸면 return 부분이 다시 실행됨
+// useRef를 바꾸면 return 부분이 다시 실행되지 않는다. 
+// -> 렌더링 시키고 싶지 않은 값, 값이 바껴도 브라우저 화면에 영향을 끼지지 않을 때
 
-    onClickScreen = () => {
-        const {state} = this.state;
-        if(state === 'wating'){ //color : cornflowerblue
-            this.setState({
-                state: 'ready', // color: tomato
-                message: '초록색이 되면 클릭하세요'
-            });
-            // 2초 ~ 3초 후에 color change tomato to seagreen
-            this.timeout = setTimeout(()=> {
-                this.setState({
-                    state: 'now', // color: seagreen
-                    message: '지금 클릭'
-                });
-                this.startTime = new Date();
-            },Math.floor(Math.random() * 1000) + 2000); // 2초~3초 사이 랜덤
-        } else if (state === 'ready'){ // 성급하게 클릭 -> state, 타이머 초기화
-            this.setState({ 
-                state: 'wating',
-                message: '너무 성급하시군요. 초록색이 된 후에 클릭하세요'
-            });
-            clearTimeout(this.timeout);
-        } else  if (state === 'now'){ //반응 속도 체크 -> 초록색이 된 순간부터 클릭할 때까지의 시간
-            // 클릭하면 다시 처음으로 돌아간다. 
-            this.endTime = new Date();
-            this.setState((prevState) => {
-                return {
-                    state: 'wating',
-                    message: '클릭해서 시작하세요.',
-                    result: [...prevState.result, this.endTime - this.startTime],
-                }
+const ResponseCheck = () => {
+    const[state, setState] = useState('wating');
+    const[message, setMessage] = useState('클릭해서 시작하세요');
+    const[result, setResult] = useState([]);
+    const timeOut = useRef(null);
+    const startTime = useRef(0);
+    const endTime = useRef(0);
+
+    const onClickScreen = () => {
+        if(state === 'wating'){
+            timeOut.current = setTimeout(()=> {
+                setState('now');
+                setMessage('지금 클릭');
+                startTime.current = new Date();
+            },Math.floor(Math.random() * 1000) + 2000); 
+            setState('ready');
+            setMessage('초록색이 되면 클릭하세요');
+        } else if (state === 'ready'){ 
+            clearTimeout(timeOut.current);
+            setState('wating');
+            setMessage( '너무 성급하시군요. 초록색이 된 후에 클릭하세요')
+        } else  if (state === 'now'){ 
+            endTime.current = new Date();
+            setState('wating');
+            setMessage('클릭해서 시작하세요.');
+            setResult((prevResult) => {
+                return [...prevResult, endTime.current - startTime.current]
             });
         }
     }
 
-    onReset = () => {
-        this.setState({
-            result: []
-        });
-    };
-
-    renderAverage = () => {
-        const { result } = this.state;
-        // result.length === 0 
-        //     ? null /*  빈 배열이면 평균 시간을 보여주지 않는다.  */
-        //     : <>
-        //         <div>평균 시간 : {result.reduce((a,c) => a + c) / result.length}ms</div>
-        //         <button onClick={this.onReset}>reset</button>
-        //     </>
-
-        console.log(result.length)
-        result.length !== 0 && <div>평균 시간 : {result.reduce((a,c) => a + c) / result.length}ms</div>
+    const onReset = () => {
+        setResult([]);
     }
-    
-    render () {
-        const { state, message } = this.state;
-        return (
-            <>
-                <div 
-                    id ="screen"
-                    className={state}
-                    onClick={this.onClickScreen}
-                    >
-                        {message}
-                </div>
-                {this.renderAverage()}
-            </>
-        )
-    }
+
+    const renderAverage = () => {
+        return result.length === 0
+          ? null
+          : <>
+            <div>평균 시간: {result.reduce((a, c) => a + c) / result.length}ms</div>
+            <button onClick={onReset}>리셋</button>
+          </>
+      };
+
+
+    return (
+        <>
+            <div 
+                id ="screen"
+                className={state}
+                onClick={onClickScreen}
+                >
+                    {message}
+            </div>
+            {renderAverage()}
+        </>
+    )
 }
-
-// render 함수 내 return안에서는 for과 if를 쓰지 못한다. (jsx에서 안에서 쓰지않는다.)
-// 1. 삼항 조건 연산자 condition ? true : false
-// 2. &&
-// -> 가독성이 떨어지면 따로 함수로 뺄 수 있다. 
-// false, undefined, null은 jsx에서 태그 없음을 의미한다. 
 
 export default ResponseCheck;
