@@ -4,6 +4,7 @@ import GuGuDan from './GuGuDan';
 import NumberBaseball from './NumberBaseball';
 import WordRelay from './WordRelay';
 import Test from './RenderTest';
+import ResponseCheck from './ResponseCheck';
 
 
 class WebGame extends Component {
@@ -16,6 +17,7 @@ class WebGame extends Component {
                 <GuGuDan />
                 <WordRelay />
                 <NumberBaseball />
+                <ResponseCheck />
             </div>
         )
     }
