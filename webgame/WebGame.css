@@ -1,3 +1,5 @@
+/* ResponseCheck */
+
 #screen {
     width: 300px;
     height: 200px;
@@ -11,4 +13,12 @@
 }
 #screen.now{
     background-color: seagreen;
+}
+
+
+/* 가위바위보 */
+#computer {
+    width: 142px;
+    height: 200px;
+    background-position: 0 0;
 }

@@ -25,6 +25,7 @@ const NumberBaseball = () => {
         if(value === answer.join('')){ // 정답을 맞춘 경우
             setResult('홈런');
             setTries((t) => ([
+                // 다른 동작 추가 가능
                 ...t,
                 {
                   try: value,
