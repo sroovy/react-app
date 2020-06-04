@@ -8,13 +8,13 @@ const rspCoords = {
 };
 
 const scores = {
-    '바위': '0',
     '가위': '1',
+    '바위': '0',
     '보': '-1'
 }
 
 const computerChoice = (imgCoord) => {
-    return Object.entries(rspCoords).find((v) => {
+    return Object.entries(rspCoords).find(function(v) {
         return v[1] === imgCoord;
     })[0];
 }
@@ -24,7 +24,7 @@ const computerChoice = (imgCoord) => {
 const RPS = () => {
     const[result, setResult] = useState('');
     const[imgCoord, setImgCoord] = useState(rspCoords.바위);
-    const[score, SetScore] = useState(0);
+    const[score, setScore] = useState(0);
     const interval = useRef();
 
     useEffect(() => { //componentDidMount, componentDidUpdate 역할
@@ -55,17 +55,13 @@ const RPS = () => {
             setResult( '비겼습니다.')
         } else if([-1, 2].includes(diff)){
             setResult('You win!');
-            SetScore((prevState)=>{
-                prevState + 1;
-            });
+            setScore((prevScore) =>prevScore + 1);
         } else {
             setResult('You lose..');
-            SetScore((prevState)=>{
-                prevState - 1;
-            });
+            setScore((prevScore) => prevScore - 1);
         }
         setTimeout(() => {
-            interval.current = setInterval(changeHand, 500);
+            interval.current = setInterval(changeHand, 200);
         }, 1000)
     };
 
