@@ -22,3 +22,38 @@
     height: 200px;
     background-position: 0 0;
 }
+
+/* Lotto */
+#Lotto {
+    margin-top: 50px;
+    height: 200px;
+}
+#numbers {
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: tomato;
+}
+#bonus {
+    margin: 20px 0 10px;
+    font-weight: bold;
+    color: teal;
+}
+.redo {
+    background-color: rgb(196, 196, 196);
+    outline: none;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 10px;
+}
+.ball {
+    display: inline-block;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 20px;
+    text-align: center;
+    margin-right: 20px;
+    color: white;
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2);
+}

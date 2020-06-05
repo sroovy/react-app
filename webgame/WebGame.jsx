@@ -5,6 +5,7 @@ import WordRelay from './2. word_relay/WordRelay';
 import NumberBaseball from './3. numberbaseball/NumberBaseball';
 import ResponseCheck from './4. response_check/ResponseCheck';
 import RPS from './5. RPS/RPS';
+import Lotto from './6. Lotto/Lotto';
 
 
 class WebGame extends Component {
@@ -18,6 +19,7 @@ class WebGame extends Component {
                 <NumberBaseball />
                 <ResponseCheck />
                 <RPS />
+                <Lotto />
             </div>
         )
     }
