@@ -33,6 +33,10 @@ class RPS extends Component {
         // 비동기 함수가 바깥의 변수를 참조하면 클로저 문제가 발생한다. 
         this.interval = setInterval(this.changeHand, 500);
     }
+    componentWillUnmount() { // 컴포넌트가 제거되기 직전, 비동기 요청 정리
+        clearInterval(this.interval);
+    }
+
 
     changeHand = () => {
         const {imgCoord} = this.state;

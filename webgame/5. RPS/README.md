@@ -91,6 +91,9 @@ useEffect(() => {
 componentDidMount() { 
   this.interval = setInterval(this.changeHand, 500);
 }
+componentWillUnmount() { 
+  clearInterval(this.interval);
+}
 ```
 
 ### 4-2. Hooks
