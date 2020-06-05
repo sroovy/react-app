@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import Ball from './Ball';
 
 function getWinNumbers() {
@@ -13,84 +13,66 @@ function getWinNumbers() {
       return [...winNumbers, bonusNumber];
 };
 
-class Lotto extends Component {
-   state = {
-      winNumbers: getWinNumbers(), //당첨 숫자들  
-      winBalls: [], 
-      bonus: null, // 보너스 공
-      redo: false,
-   };
 
-   timeouts = [];
+const Lotto = () => {
+   const lottoNumbers = useMemo(() => getWinNumbers(), []);
+   const [winBalls, setWinBalls] = useState([]);
+   const [winNumbers, setWinNumbers] = useState(lottoNumbers);
+   const [bonus, setBonus] = useState(null);
+   const [redo, setRedo] = useState(false);
+   const timeouts = useRef([]);
 
-   runTimeouts = () => {
-      console.log("runTimeouts");
-      const { winNumbers } = this.state; 
+   
+
+   useEffect(() => {
+      console.log('useEffect');
       for(let i = 0; i < winNumbers.length -1; i++){
-         this.timeouts[i] = setTimeout(() => {
-            this.setState((prevState) => {
-               return {
-                  winBalls: [...prevState.winBalls, winNumbers[i]]
-               };
-            });
+         // timeouts.current 요소로 직접 넣어주기 때문에 timeouts.current가 변하는것은 아니다. 
+         timeouts.current[i] = setTimeout(() => {
+            setWinBalls((prevBalls) => [...prevBalls, winNumbers[i]]);
          }, (i + 1) * 1000);
       }
-      this.timeouts[6] = setTimeout(() => {
-         this.setState({
-            bonus: winNumbers[6],
-            redo: true // 한 번 더 버튼이 보이게 된다. 
-         });
+      timeouts.current[6] = setTimeout(() => {
+         setBonus(winNumbers[6]);
+         setRedo(true);
       }, 7000); 
-   }
-
-   componentDidMount () {
-      console.log('DidMount');
-      this.runTimeouts();
-   }
-
-   // prevState와 this.state를 비교해서 어떤 상황에 업데이트를 
-   // 실행할것인지 정해준다. 
-   componentDidUpdate (prevProps, prevState) {
-      console.log('DidUpdate');
-      if (this.state.winBalls.length === 0) {
-         this.runTimeouts();
+      
+      return () => {
+         timeouts.current.forEach((v) => {
+            clearTimeout(v);
+         });
       }
-   }
+   }, [timeouts.current]);  
+   
+   
+   // inputs가 빈배열이면 componentDidMount랑 같다. 
+   // 배열에 요소가 요소가 있으면 componentDidMount + componentDidUpdate
 
-   componentWillUnmount () {
-      console.log('WillUnmount');
-      this.timeouts.forEach((v) => {
-         clearTimeout(v);
-      });
-   }
 
-   // 초기화
-   onClickRedo = () => {
-      console.log('onClickRedo');
-      this.setState({
-         winNumbers: getWinNumbers(), 
-         winBalls: [], 
-         bonus: null, 
-         redo: false,
-      });
-      this.timeouts = [];
 
-   }
+   const onClickRedo = useCallback(() => {
+         console.log('onClickRedo');
+         console.log(winNumbers);
+         setWinNumbers(getWinNumbers());
+         setWinBalls([]);
+         setBonus(null);
+         setRedo(false);
+         // 바뀌는 부분 감지 -> useEffect의 inputs로 들어간다. 
+         timeouts.current = [];
+      }, [winNumbers]); 
 
-   render() {
-      const { winBalls, bonus, redo } = this.state;
-      return (
-         <div id="Lotto">
-            <div id="numbers">당첨 숫자</div>
-            <div id="result">
-               {winBalls.map((v) => <Ball key={v} number={v} />)}
-            </div>
-            <div id="bonus">보너스!</div>
-            {bonus && <Ball number={bonus} />}
-            {redo && <button className="redo" onClick={this.onClickRedo}>한 번 더!</button>}
+   return (
+      <div id="Lotto">
+         <div id="numbers">당첨 숫자</div>
+         <div id="result">
+            {winBalls.map((v) => <Ball key={v} number={v} />)}
          </div>
-      );
-   }
+         <div id="bonus">보너스!</div>
+         {bonus && <Ball number={bonus} />}
+         {redo && <button className="redo" onClick={onClickRedo}>한 번 더!</button>}
+      </div>
+   );
+
 }
 
 export default Lotto;
