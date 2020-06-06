@@ -6,6 +6,7 @@ import NumberBaseball from './3. numberbaseball/NumberBaseball';
 import ResponseCheck from './4. response_check/ResponseCheck';
 import RPS from './5. RPS/RPS';
 import Lotto from './6. Lotto/Lotto';
+import TicTacToe from './7. TicTacToe/TicTacToe';
 
 
 class WebGame extends Component {
@@ -14,12 +15,13 @@ class WebGame extends Component {
     render() {
         return (
             <div id="webGame">
-                <GuGuDan />
+                {/* <GuGuDan />
                 <WordRelay />
                 <NumberBaseball />
                 <ResponseCheck />
                 <RPS />
-                <Lotto />
+                <Lotto /> */}
+                <TicTacToe />
             </div>
         )
     }

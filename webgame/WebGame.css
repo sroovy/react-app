@@ -57,3 +57,15 @@
     color: white;
     box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2);
 }
+
+
+/* 틱택톡 */
+table {
+    border-collapse: collapse;
+}
+td {
+    border: 1px solid black;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+}
