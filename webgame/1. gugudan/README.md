@@ -118,5 +118,81 @@ onSubmitValue = (e) => {
 input; //input 선언
 onRefInput = (c) => {this.input = c; } // focus 함수
 ```
+<br/>
+
+***
+
+<br/>
+
+## 3. Hooks
+* Hook은 함수 컴포넌트에서 React state와 생명주기 기능(lifecycle features)을 “연동(hook into)“할 수 있게 해주는 함수
+* 함수형 컴포넌트에서도 상태 관리를 할 수 있는 useState, 렌더링 직후 작업을 설정하는 useEffect 등의 내장 Hook을 제공한다. 
+
+```javascript
+const GuGuDan = () => {
+   return
+}
+```
 
 
+### 1. useState
+* 현재의 state 값과 이 값을 업데이트하는 함수를 쌍으로 제공
+* useState는 인자로 초기 state 값을 받고 이 초기값은 첫 번째 렌더링에만 딱 한번 사용된다.
+```javascript
+import React, { useState } from 'react'; // hook 호출
+
+const GuGuDan = () => {
+   const [first, setFirst] = useState(getNumber());
+   const [second, setSecond] = useState(getNumber());
+   const [value, setValue] = useState('');
+   const [result, setResult] = useState('???');
+
+   return (
+      <div id="gugudan">
+         <div className="questions">{first} &times; {second} 은?</div>
+         <form onSubmit={onSubmitForm}>
+            <input  ref={ inputRef } type="number" value={value} onChange={onChangeValue} />
+            <button type="submit">check</button>
+         </form>
+         <div className="result">{result}</div>
+      </div>
+   );
+};
+
+```
+<br/>
+
+### 2. setState
+* class의 this.setState와 거의 유사하지만, 이전 state와 새로운 state를 합치지 않는다는 차이점이 있다. 
+```javascript
+const onChangeValue = (e) => {
+   setValue(e.target.value);
+}
+
+const onSubmitForm = (e) => {
+   e.preventDefault();
+   if(parseInt(value) === first * second){ 
+      // setState를 한번에 모아서 비동기로 처리 -> 렌더가 한번만 실행
+      setFirst(getNumber());
+      setSecond(getNumber());
+      setResult((prevResult) => value + ' 정답입니다');
+      setValue('');
+      inputRef.current.focus();
+   } else {
+      setResult('정답이 아닙니다');
+      setValue('');
+      inputRef.current.focus();
+   }
+};
+
+```
+
+### 3. useRef
+* useRef는 .current 프로퍼티에 변경 가능한 값을 담고 있는 “상자”와 같다.
+```javascript
+const inputRef = React.useRef(null);
+
+inputRef.current.focus();
+
+<input  ref={ inputRef } />
+```
