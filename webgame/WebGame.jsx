@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { useState, useRef } from 'react';
-import GuGuDan from './1. gugudan/GuGuDan';
+import GuGuDan from './1. gugudan/GuGuDanHooks';
 import WordRelay from './2. word_relay/WordRelay';
-import NumberBaseball from './3. numberbaseball/NumberBaseball';
+import NumberBaseball from './3. numberbaseball/NumberBaseballClass';
 import ResponseCheck from './4. response_check/ResponseCheck';
 import RPS from './5. RPS/RPS';
 import Lotto from './6. Lotto/Lotto';
@@ -15,13 +15,9 @@ class WebGame extends Component {
     render() {
         return (
             <div id="webGame">
-                {/* <GuGuDan />
+                <GuGuDan />
                 <WordRelay />
                 <NumberBaseball />
-                <ResponseCheck />
-                <RPS />
-                <Lotto /> */}
-                <TicTacToe />
             </div>
         )
     }

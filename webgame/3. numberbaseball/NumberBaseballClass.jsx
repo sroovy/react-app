@@ -18,7 +18,7 @@ const getNumbers = () => {
 
 class NumberBaseball extends Component {
     state = {
-        result: '',
+        result: '⚾️Number Baseball⚾️',
         value: '',
         answer: getNumbers(),
         tries: []
@@ -42,13 +42,7 @@ class NumberBaseball extends Component {
             let ball = 0;
             if(tries.length >= 9){ // 10번 이상 틀렸을 때 
                 this.setState({
-                    result: `10번 이상 틀려서 실패! 답은 ${answer.join(',')}입니다.`,
-                });
-                alert('게임을 다시 시작합니다');
-                this.setState({ // 게임 초기화
-                    value: '',
-                    answer: getNumbers(),
-                    tries: []
+                    result: `10번 이상 틀려서 실패! 답은 ${answer.join('')}입니다.`,
                 });
                 this.inputRef.current.focus();
             } else {
@@ -74,10 +68,20 @@ class NumberBaseball extends Component {
         });
     }
 
+    onClickReset = () => {
+        this.setState({
+            result: '⚾️Number Baseball⚾️',
+            value: '',
+            answer: getNumbers(),
+            tries: []
+        });
+    }
+
     inputRef = createRef(); // this.inputRef
 
     render() {
         const { result, value, tries } = this.state;
+        console.log(this.state.tries.length);
         return (
             <div id="NumberBaseball">
                 <div className="result">{result}</div>
@@ -93,6 +97,7 @@ class NumberBaseball extends Component {
                         );
                     })}
                 </ul>
+                {tries.length >= 1 ? <button className="reset" onClick={this.onClickReset}>reset</button> : null}
             </div>
         )
     }

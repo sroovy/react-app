@@ -1,3 +1,182 @@
+body {margin: 0; padding: 50px;}
+button {
+    background: transparent;
+    outline: none;
+    border: none;
+}
+input {
+    background: white;
+    outline: none;
+    border: none;
+    font-size: 1.125rem;
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+
+/* gugudan */
+#gugudan {
+    width: 400px;
+    background-color: powderblue;
+    text-align: center;
+    border-radius: 15px;
+    box-shadow: 5px 5px 0 0 rgba(0, 0, 0, 0.2);
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 100px;
+}
+#gugudan form {
+    z-index: 990;
+    width: 300px;
+    height: 150px;
+    border-radius: 5px;
+}
+#gugudan .questions {
+    font-size: 2em;
+    font-weight: bold;
+    color: darkcyan;
+    margin-bottom: 20px;
+}
+#gugudan form input {
+    background: rgba(255, 255, 255, 0.8);
+    outline: none;
+    border: none;
+    border-bottom: 1.5px solid rgb(31, 93, 95);
+    border-radius: 5px;
+    padding: 0.5rem;
+    font-size: 1.125rem;
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+#gugudan form button {
+    background: darkcyan;
+    border-radius: 5px;
+    color: white;
+    padding: 0.5rem 1rem;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    margin: 0 auto;
+}
+#gugudan .result {
+    width: 250px;
+    color: tomato;
+    font-size: 24px;
+    border-bottom: 3px dotted cadetblue;
+    padding-bottom: 0.5rem
+}
+
+
+/* WordRelay */
+#wordRelay {
+    width: 400px;
+    background-color: rgb(252, 223, 198);
+    text-align: center;
+    border-radius: 15px;
+    box-shadow: 5px 5px 0 0 rgba(0, 0, 0, 0.2);
+    padding: 100px 50px;
+    margin: 0 auto 100px;
+}
+#wordRelay .word {
+    font-size: 28px;
+    font-weight: bold;
+    color: coral;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+}
+#wordRelay form input {
+    border-radius: 5px;
+    margin: 10px 0;
+    padding: 0.4rem;
+}
+#wordRelay form button {
+    background: coral;
+    border-radius: 5px;
+    color: white;
+    padding: 0.5rem 1rem;
+    font-size: 1.1rem;
+    align-items: center;
+    cursor: pointer;
+    margin: 0 auto;
+    vertical-align: middle;
+}
+#wordRelay form label{
+    display: block;
+}
+#wordRelay form label .lastWord {
+    font-size: 20px;
+    color: coral;
+    font-weight: bold;
+    font-style: normal;
+}
+#wordRelay .result {
+    font-size: 20px;
+    color: #333;
+    font-weight: bold;
+}
+
+/* numberbaseball */
+
+#NumberBaseball {
+    width: 400px;
+    background-color: cornsilk;
+    text-align: center;
+    border-radius: 15px;
+    box-shadow: 5px 5px 0 0 rgba(0, 0, 0, 0.2);
+    padding: 50px 50px;
+    margin: 0 auto 100px;
+    position: relative;
+    border: 3px dashed crimson;
+}
+#NumberBaseball .result {
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 30px;
+    letter-spacing: 1px;
+}
+#NumberBaseball form input {
+    border: 2px dashed crimson;
+    margin-right: 15px;
+    padding: 0.3rem;
+}
+#NumberBaseball form button {
+    background: crimson;
+    border-radius: 5px;
+    color: white;
+    padding: 0.5rem 1rem;
+    font-size: 1.1rem;
+}
+#NumberBaseball .tries {}
+#NumberBaseball li {
+    border-bottom: 1px solid rgb(245, 236, 219)ilk;
+    padding: 0.3rem;
+    font-size: 20px;
+}
+#NumberBaseball li em {
+    display: inline-block;
+    font-style: normal;
+    font-weight: bold;
+    color: crimson;
+    margin-right: 10px;
+}
+#NumberBaseball .reset {
+    background: crimson;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    border-radius: 50%;
+    color: white;
+    font-size: 1.1rem;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    cursor: pointer;
+}
+
 /* ResponseCheck */
 
 #screen {
@@ -69,3 +248,128 @@ td {
     height: 40px;
     text-align: center;
 }
+
+
+/* todolist
+.Template {
+    padding-top: 20px;
+    max-height: 100vh;
+}
+
+.title {
+    width: 90vh;
+    margin: 0 auto;
+
+    padding-bottom: 20px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: cadetblue;
+}
+
+.ToDoList {
+    width: 90vw;
+    margin: 0 auto;
+    list-style-type: none;
+    padding-bottom: 20px;
+}
+.ToDoItem {
+    margin: 1rem auto;
+
+    border-radius: 5px;
+    box-shadow: 1px 2px 5px 1px cadetblue;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    font-size: 1.2rem;
+}
+
+.content {
+    cursor : pointer;
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.content svg {
+    font-size: 1.5rem;
+    color: cadetblue;
+    margin-right: 10px;
+}
+.content .text {
+    margin-left: 0.5rem;
+    flex: 1;
+}
+
+.content.checked .text {
+    color: #555;
+    text-decoration: line-through;
+    cursor: pointer;
+    opacity: 0.6;
+}
+
+.add-todo-button {
+    position: fixed;
+    right: -5px;
+    bottom: 0; 
+    z-index: 100;
+    width: 80px;
+    height: 80px;
+    cursor: pointer;
+    font-size: 5rem;
+    color: cadetblue;
+}
+
+.overlay {
+    position: fixed;
+    z-index: 900;
+    top: 0;
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.8);
+    transition: 0.3s;
+}
+form {
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 990;
+    width: 300px;
+    height: 150px;
+    border-radius: 5px;
+    box-shadow: 1px 2px 5px 1px cadetblue;
+
+    background: white;
+}
+
+form > input {
+    background: none;
+    outline: none;
+    border: none;
+    border-bottom: 1px solid cadetblue;
+
+    padding: 0.5rem;
+    font-size: 1.125rem;
+    line-height: 1.5;
+}
+
+form > button {
+    background: none;
+    outline: none;
+    border: none;
+    color: cadetblue;
+    padding: 1rem;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: overlay 0.1s ease-in;
+
+} */
