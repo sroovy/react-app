@@ -24,8 +24,6 @@ class NumberBaseball extends Component {
         tries: []
     };
 
-
-    
     onSubmitForm = (e) => {
         const { value, tries, answer } = this.state;
         e.preventDefault();
@@ -81,7 +79,9 @@ class NumberBaseball extends Component {
 
     render() {
         const { result, value, tries } = this.state;
-        console.log(this.state.tries.length);
+        console.log('answer', this.state.answer);
+        console.log('tries', this.state.tries);
+        console.log('...tries', ...tries);
         return (
             <div id="NumberBaseball">
                 <div className="result">{result}</div>
