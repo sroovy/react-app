@@ -4,18 +4,14 @@ import Try from './TryClass';
 
 // 숫자 4개를 랜덤하게 뽑는 함수(중복 X)
 const getNumbers = () => { 
-    const candidates = [1, 2, 3, 4, 5, 6, 7, 8, 9]; //숫자 후보
-    const numbers = []; // 숫자 배열
-    // 선택된 숫자
+    const candidates = [1, 2, 3, 4, 5, 6, 7, 8, 9]; 
+    const numbers = []; 
     for(let i = 0; i < 4; i++){
-        // undefined 가 뽑히지 않게
         const chosen = candidates.splice(Math.floor(Math.random() * (9 - i)), 1)[0]; // 배열을 반환하기 때문에
         numbers.push(chosen);
     }
     return numbers;
 };
-
-
 class NumberBaseball extends Component {
     state = {
         result: '⚾️Number Baseball⚾️',
@@ -59,7 +55,6 @@ class NumberBaseball extends Component {
                         value: ''
                     }
                 })
-
                 this.inputRef.current.focus();
             }
         }
@@ -84,9 +79,6 @@ class NumberBaseball extends Component {
 
     render() {
         const { result, value, tries } = this.state;
-        console.log('answer', this.state.answer);
-        console.log('tries', this.state.tries);
-        console.log('...tries', ...tries);
         return (
             <div id="NumberBaseball">
                 <div className="result">{result}</div>
@@ -109,4 +101,3 @@ class NumberBaseball extends Component {
 }
 
 export default NumberBaseball;
-

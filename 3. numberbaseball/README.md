@@ -1,14 +1,14 @@
 # 3. 숫자 야구⚾️
 
 <br />
-<img src="https://github.com/lee-suyeon/react-app/blob/master/webgame/img/numberbaseball.JPG?raw=true" width="450px" alt="wordrelay"></img>
+<img src="https://github.com/lee-suyeon/webgame/blob/master/img/numberbaseball.JPG?raw=true" width="450px" alt="wordrelay"></img>
 <br/>
 
 ## 1. 게임 순서
 1. 4자리로 된 임의의 숫자를 정한다. (중복 X)
 2. 입력창에 4자리의 숫자를 입력한다. 
 3. 숫자는 맞지만 위치가 틀리면 **볼**, 숫자와 위치가 전부 맞으면 **스트라이크**
-4. 숫자를 맞추면 **홈런**, 10번 이내에 숫자를 못 맞추면 실패! 
+4. 정답을 맞추면 **홈런**, 10번 이내에 숫자를 못 맞추면 실패! 
 
 
 <br/>
@@ -73,7 +73,8 @@
     > Math.floor(Math.random() * 9)에서 나올 수 있는 숫자의 범위는 0 ~ 8 이고 candidates배열의 원소 index와 동일 하다.   
     > i가 0일때 랜덤으로 뽑힌 숫자가 3이라면 candidates.splice(3, 1)이 되고 뽑힌 숫자는 4가 된다. → candidates = [1, 2, 3, 5, 6, 7, 8, 9]   
     > i가 1일때 랜덤으로 뽑힌 숫자가 8이 된다면 candidates.splice(8, 1)이 되고   
-    > candidates배열에 8번째 원소가 존재하지 않기 때문에 undefined를 반환한다. 
+    > candidates배열에 8번째 원소가 존재하지 않기 때문에 undefined를 반환한다.    
+    > → 숫자가 한개씩 뽑힐 때마다 나올 수 있는 숫자의 범위를 줄이기 위해서 i를 빼줘야한다. 
 * splice메소드는 배열을 반환하기 때문에 [0]을 붙여 숫자에 접근한다.
 * 뽑힌 4개의 숫자를 numbers에 넣어주고 반환한다. 
 
@@ -120,10 +121,12 @@ onSubmitForm = (e) => {
     const { value, tries, answer } = this.state;
     e.preventDefault();
     if(value === answer.join('')){ // 정답일 때,
-        this.setState({
-            result: "홈런!",
-            value: '',
-            tries: [...tries, { try : value, result: '홈런!'}]
+        this.setState((prevState) => {
+            return {
+                result: "홈런!",
+                value: '',
+                tries: [...prevState.tries, { try : value, result: '홈런!'}]
+            }
         });
     } else { // 정답이 아닐때
         const answerArray =  value.split('').map((v) => parseInt(v));
@@ -142,17 +145,20 @@ onSubmitForm = (e) => {
                     ball += 1;
                 }
             }
-            this.setState({
-                tries: [...tries, { id: tries.length, try: value, result: `${strike}스트라이크 ${ball}볼 입니다` }],
-                value: '',
-            });
+            this.setState((prevState) => {
+                return {
+                    tries: [...prevState.tries, { id: tries.length, try: value, result: `${strike}스트라이크 ${ball}볼 입니다` }],
+                    value: ''
+                }
+            })
             this.inputRef.current.focus();
         }
     }
 }
 ```
+<br />
 
-2. Try
+### 4. Try
 * 숫자를 입력하면 시도 리스트가  추가된다. 
 * 리액트에서 반복문은 map()를 이용한다. 
     > **map()**   
@@ -183,11 +189,17 @@ class Try extends Component {
     }
 }
 ```
-
-
-
-
-
+* hooks일때  
+```javascript
+const Try = ({ tryInfo }) => {
+    return (
+        <li>
+            <em>{ tryInfo.try }</em>
+            <span>{ tryInfo.result }</span>
+        </li>
+    )
+}
+```
 
 
 
