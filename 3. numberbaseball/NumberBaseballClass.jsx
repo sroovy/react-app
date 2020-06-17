@@ -29,10 +29,12 @@ class NumberBaseball extends Component {
         e.preventDefault();
         if(value === answer.join('')){ // 정답일 때,
             // 입력값은 2132 answer는 [3,5,6,7] -> 3678
-            this.setState({
-                result: "홈런!",
-                value: '',
-                tries: [...tries, /* <-이전 함수 복사 */ { try : value, result: '홈런!'}]
+            this.setState((prevState) => {
+                return {
+                    result: "홈런!",
+                    value: '',
+                    tries: [...prevState.tries, { try : value, result: '홈런!'}]
+                }
             });
         } else { // 정답이 아닐때
             const answerArray =  value.split('').map((v) => parseInt(v));
@@ -51,10 +53,13 @@ class NumberBaseball extends Component {
                         ball += 1;
                     }
                 }
-                this.setState({
-                    tries: [...tries, { id: tries.length, try: value, result: `${strike}스트라이크 ${ball}볼 입니다` }],
-                    value: '',
-                });
+                this.setState((prevState) => {
+                    return {
+                        tries: [...prevState.tries, { id: tries.length, try: value, result: `${strike}스트라이크 ${ball}볼 입니다` }],
+                        value: ''
+                    }
+                })
+
                 this.inputRef.current.focus();
             }
         }

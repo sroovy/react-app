@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, memo } from 'react';
 import Try from './TryHooks';
 
 const getNumbers = () => {
@@ -11,11 +11,12 @@ const getNumbers = () => {
     return numbers
 }
 
-const NumberBaseball = () => {
+const NumberBaseball = memo(() => {
     const [result, setResult] = useState('⚾️Number Baseball⚾️');
     const [value, setValue] = useState('');
     const [answer, setAnswer] = useState(getNumbers());
     const [tries, setTries] = useState([]);
+    const inputEl = useRef(null);
 
     const onSubmitForm = (e) => {
         e.preventDefault();
@@ -23,14 +24,17 @@ const NumberBaseball = () => {
             setResult('홈런!');
             setValue('');
             setAnswer(getNumbers());
-            setTries([...tries, {try : value, result: '홈런'}]);
+            setTries((prevTries) => {
+                return [...prevTries, {try : value, result: '홈런'}]
+            });
+            inputEl.current.focus();
         } else {  // 정답이 아닐때
             const answerArray = value.split('').map((v) => parseInt(v));
             let strike = 0;
             let ball = 0;
             if(tries.length >= 9){
                 setResult(`10번 이상 틀려서 실패! 답은 ${answer.join('')}입니다.`);
-
+                inputEl.current.focus();
             } else {
                 for(let i = 0; i < 4; i++){
                     if(answerArray[i] === answer[i]){
@@ -39,8 +43,10 @@ const NumberBaseball = () => {
                         ball += 1;
                     }
                 }
-                setTries( [...tries, { id: tries.length, try: value, result: `${strike}스트라이크 ${ball}볼 입니다` }]);
                 setValue('');
+                setTries((prevTries) => {
+                    return [...prevTries, { id: tries.length, try: value, result: `${strike}스트라이크 ${ball}볼 입니다` }]
+                })
             }
         }
     };
@@ -77,8 +83,6 @@ const NumberBaseball = () => {
             {tries.length >= 1 ? <button className="reset" onClick={onClickReset}>reset</button> : null}
         </div>
     )
-
-
-}
+});
 
 export default NumberBaseball;
