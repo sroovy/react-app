@@ -150,9 +150,8 @@ input {
     padding: 0.5rem 1rem;
     font-size: 1.1rem;
 }
-#NumberBaseball .tries {}
 #NumberBaseball li {
-    border-bottom: 1px solid rgb(245, 236, 219)ilk;
+    border-bottom: 1px solid rgb(245, 236, 219);
     padding: 0.3rem;
     font-size: 20px;
 }
@@ -180,15 +179,24 @@ input {
 /* ResponseCheck */
 
 #screen {
-    width: 300px;
-    height: 200px;
+    width: 600px;
+    height: 400px;
+    padding: 150px 15px;
+    box-sizing: border-box;
     text-align: center;
-    user-select: none;
+    color: white;
+    font-size: 40px;
+    font-weight: 500;
+    user-select: none; /*block X*/
 }
-#screen.wating {background-color: cornflowerblue;}
+#screen .average{
+    margin: 20px;
+    font-size: 20px;
+}
+
+#screen.waiting {background-color: cornflowerblue;}
 #screen.ready{
     background-color: tomato;
-    color: white;
 }
 #screen.now{
     background-color: seagreen;
