@@ -74,6 +74,18 @@ renderAverage = () => {
 }
 ```
 
+3. 즉시 실행 함수
+* jsx안에서는 못 쓰지만 함수안에서는 쓸 수 있다.
+```javascript
+{() => {
+    if(result.length === 0) {
+        return null;
+    } else {
+        return <div className="average"> Average : {result.reduce((a, c) => a + c ) / result.length}ms</div>
+    }
+}()} // 함수 선언과 동시에 호출
+```
+
 ### 3. **onClickScreen()**
 1. 처음 클릭을 하면 state가 ready 상태로 바뀐다.
 2. 타이머가 실행되고 2~3초(랜덤 초) 후에 화면이 초록색으로 바뀐다.   
@@ -86,7 +98,6 @@ renderAverage = () => {
 
 ```javascript
 
-// scope문제와 화면과 상관없기 때문에 따로 변수로 빼둔다. 
 startTime;
 endTime;
 timer;
@@ -130,3 +141,40 @@ onClickScreen = () => {
 }
 
 ```
+
+## 3. Hooks 
+* Class와 차이점
+
+### 1. UseRef
+* DOM에 접근할 대
+* 컴포넌트 안에서 조회 및 수정 할 수 있는 변수를 관리
+* 값이 바뀌기는 하지만 화면에 영향을 미치고 싶지 않을때 state 대신 사용한다. 
+    → **값이 바껴도 렌더링이 되지 않는다.**
+* ref는 current로 접근해야한다. 
+
+```javascript
+//class
+startTime;
+endTime;
+timer;
+
+//hooks
+const timer = useRef(null);
+const startTime = useRef();
+const endTime = useRef();
+
+// 타이머설정
+timer.current = setTimeout(() => {
+    setState('now');
+    setMessage('Click! 👌');
+    // 시작 시간 가져오기
+    startTime.current = new Date();
+}, Math.floor(Math.random() * 9) + 2000);
+
+// 타이머 취소
+clearTimeout(timer.current);
+
+endTime.current = new Date();
+
+```
+
