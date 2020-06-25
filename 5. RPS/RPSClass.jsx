@@ -2,107 +2,101 @@ import React, { Component } from 'react';
 
 
 const rspCoords = {
-    '바위': '0',
-    '가위': '-142px',
-    '보': '-284px'
-};
-
-const scores = {
-    '바위': '0',
-    '가위': '1',
-    '보': '-1'
+    rock : '0',
+    scissors : '-245px',
+    paper : '-520px'
 }
 
-const computerChoice = (imgCoord) => {
-    return Object.entries(rspCoords).find((v) => {
-        return v[1] === imgCoord;
-    })[0];
+const scores = {
+    rock : 0,
+    scissors : -1,
+    paper : 1
 }
 
 class RPS extends Component {
     state = {
-        result: ' ',
-        imgCoord: rspCoords.바위,
-        score: 0
-    };
+        computerChoice : 'rock',
+        result : '❓❓❓',
+        score : 0
+    }
 
     interval;
 
-    componentDidMount() { 
-        // 렌더 후 실행되는 가위바위보(1초 마다 돌아가는 가위바위보)
-        // 비동기 함수가 바깥의 변수를 참조하면 클로저 문제가 발생한다. 
-        this.interval = setInterval(this.changeHand, 500);
+    componentDidMount() {
+        this.interval = setInterval(this.changeHand, 100);
     }
-    componentWillUnmount() { // 컴포넌트가 제거되기 직전, 비동기 요청 정리
+
+    componentWillUnmount() {
         clearInterval(this.interval);
     }
 
 
     changeHand = () => {
-        const {imgCoord} = this.state;
-            if (imgCoord === rspCoords.바위){
-                this.setState({
-                    imgCoord: rspCoords.가위
-                });
-            } else if(imgCoord === rspCoords.가위){
-                this.setState({
-                    imgCoord: rspCoords.보
-                });
-            } else if(imgCoord === rspCoords.보){
-                this.setState({
-                    imgCoord: rspCoords.바위
-                })
-            }
+        const { computerChoice } = this.state;
+        if(computerChoice === 'rock'){
+            this.setState({
+                computerChoice : 'scissors'
+            });
+        } else if(computerChoice === 'scissors'){
+            this.setState({
+                computerChoice : 'paper'
+            });
+        } else if(computerChoice === 'paper'){
+            this.setState({
+                computerChoice : 'rock'
+            });
+        }
     }
 
-
-    onClickBtn = (choice) => () => {
-        const { imgCoord } = this.state;
+    onClickButton(userChoice) {
+        const { computerChoice } = this.state;
         clearInterval(this.interval);
-        const myScore = scores[choice];
-        const cpuScore = scores[computerChoice(imgCoord)];
-        const diff = myScore - cpuScore;
-        if(diff === 0) { // 비긴경우
+
+        const myScore = scores[userChoice];
+        const computerScore = scores[computerChoice];
+        const scoreCount = myScore - computerScore;
+        
+        if(scoreCount === 0){
             this.setState({
-                result: '비겼습니다.',
+                result : 'DRAW😌',
             });
-        } else if([-1, 2].includes(diff)){ // 내가 이겼을 때 
+        } else if ([-1, 2].includes(scoreCount)){
             this.setState((prevState) => {
                 return {
-                    result: 'You win!.',
-                    score: prevState.score + 1,
+                    result : 'You Win!😆',
+                    score : prevState.score + 1
                 }
             });
         } else {
             this.setState((prevState) => {
                 return {
-                    result: 'You lose..',
-                    score: prevState.score - 1,
+                    result : 'You Lose!😢',
+                    score : prevState.score - 1
                 }
-            })
+            });
         }
-        setTimeout(() => {
-            this.interval = setInterval(this.changeHand, 500);
-        }, 1000)
-    };
 
-    render () {
-        const { result, score, imgCoord } = this.state;
-        // imgCoord -> sprite이미지의 좌표 
+        setTimeout(() => {
+            this.interval = setInterval(this.changeHand, 100);
+        }, 1000)
+    }
+
+    render() {
+        const { computerChoice, result, score } = this.state;
         return (
             <div id="RPS">
-                <div id="computer" style={{ background: `url(https://en.pimg.jp/023/182/267/1/23182267.jpg) ${imgCoord} 0 `}}></div>
+                <div id="computer" style={{backgroundPosition: `${rspCoords[computerChoice]} center`}}></div>
+                <div className="result">{result}</div>
                 <div>
-                    <button id="rock" className="btn" onClick={this.onClickBtn('바위')}>바위</button>
-                    <button id="scissor" className="btn" onClick={this.onClickBtn('가위')}>가위</button>
-                    <button id="paper" className="btn" onClick={this.onClickBtn('보')}>보</button>
+                    <button id="rock" className="button" onClick={() => this.onClickButton('rock')}>rock</button>
+                    <button id="scissors" className="button" onClick={() => this.onClickButton('scissors')}>scissors</button>
+                    <button id="paper" className="button" onClick={() => this.onClickButton('paper')}>paper</button>
                 </div>
-                <div>{result}</div>
-                <div>현재 : {score}점</div>
+                <div className="score">Score : {score}</div>
             </div>
-        );
-    };
+            
+        )
+    }
 }
-
 
 export default RPS;
