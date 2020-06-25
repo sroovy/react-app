@@ -1,5 +1,6 @@
 # ✊🏻🖐🏻✌🏻 5. Rock-paper-scissors
 
+<img src="https://github.com/lee-suyeon/webgame/blob/master/5.%20RPS/rps.gif?raw=true" width="500px" alt="responseCheck"></img>
 ---
 
 <br>
@@ -25,7 +26,7 @@
 <br>
 
 ### 2-1. componentDidMount
-* 컴포넌트 출력물이 DOM에 렌더링 된 후 실행. 
+* 컴포넌트 출력물이 DOM에 첫 렌더링 된 후 실행. 
 * **비동기 요청**을 하기에 좋은 장소 → 타이머
 ```javascript
 componentDidMount() { 
@@ -52,11 +53,99 @@ componentWillUnmount() {
 }
 ```
 <br>
-
 ---
 <br>
 
-## 3. useEffect of Hooks
+## 3. changeHand()
+* 가위바위보 실행 함수
+* 이미지 스프라이트 → 일정한 시간 간격으로 background-position 좌표가 바뀐다.
+
+```javascript
+
+const rspCoords = {
+    rock : '0',
+    scissors : '-245px',
+    paper : '-520px'
+}
+
+class RPS extends Component {
+ state = { computerChoice : 'rock' }
+
+  changeHand = () => {
+    const { computerChoice } = this.state;
+    if(computerChoice === 'rock'){
+        this.setState({
+            computerChoice : 'scissors'
+        });
+    } else if(computerChoice === 'scissors'){
+        this.setState({
+            computerChoice : 'paper'
+        });
+    } else if(computerChoice === 'paper'){
+        this.setState({
+            computerChoice : 'rock'
+        });
+    }
+  }
+}
+```
+
+## 4. onClickButton()
+* 유저가 선택한 버튼을 매개변수로 받아와 컴퓨터의 선택과 비교해서 승패를 결정한다. 
+* 점수 계산 규칙(유저 점수 - 컴퓨터 점수)   
+
+```javascript
+const scores = {
+    rock : 0,
+    scissors : -1,
+    paper : 1
+}
+
+//user / com | 가위 | 바위 | 보   
+//        가위 |   0      -1     -2   
+//        바위 |   1       0     -1   
+//        보    |   2       1      0   
+//→ 점수가 -2, 1이면 user가 승리 
+
+onClickButton(userChoice) {
+  const { computerChoice } = this.state;
+  clearInterval(this.interval); // 컴퓨터가 낸 가위바위보 확인을 위해 타이머 정지
+
+  const myScore = scores[userChoice];
+  const computerScore = scores[computerChoice];
+  const scoreCount = myScore - computerScore;
+  
+  if(scoreCount === 0){
+      this.setState({
+          result : 'DRAW😌',
+      });
+  } else if ([-1, 2].includes(scoreCount)){
+      this.setState((prevState) => {
+          return {
+              result : 'You Win!😆',
+              score : prevState.score + 1
+          }
+      });
+  } else {
+      this.setState((prevState) => {
+          return {
+              result : 'You Lose!😢',
+              score : prevState.score - 1
+          }
+      });
+  }
+
+  setTimeout(() => { // 점수 계산이 끝나면 다시 가위바위보 실행
+      this.interval = setInterval(this.changeHand, 100);
+  }, 1000)
+}
+
+```
+
+
+
+
+## 4 useEffect of Hooks
 * class의 componentDidMount와 componentDidUpdate, componentWillUnmount가 합쳐진 것
 * 리액트 컴포넌트가 **렌더링 이후**에 실행되는 동작을 설정
 * 생명주기 메서드에 따라서가 아니라 **코드가 무엇을 하는지**에 따라 나눌 수 있다.
