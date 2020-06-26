@@ -27,13 +27,13 @@ const RPS = () => {
     const[score, setScore] = useState(0);
     const interval = useRef();
 
-    useEffect(() => { //componentDidMount, componentDidUpdate 역할
+    useEffect(() => {
         interval.current = setInterval(changeHand, 200);
-        return () => { //componentWillUnmount 역할
+        return () => {
             clearInterval(interval.current);
         }
-    }, [ imgCoord ]); //클로저 문제를 해결해주는 배열
-    // 두 번재 인수 배열에 넣은 값들이 바뀔 때 useEffect가 실행된다.  
+    }, [ imgCoord ]); 
+
 
     const changeHand = () => {
         if (imgCoord === rspCoords.바위){

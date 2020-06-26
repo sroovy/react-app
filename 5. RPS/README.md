@@ -144,7 +144,6 @@ onClickButton(userChoice) {
 
 
 
-
 ## 4 useEffect of Hooks
 * class의 componentDidMount와 componentDidUpdate, componentWillUnmount가 합쳐진 것
 * 리액트 컴포넌트가 **렌더링 이후**에 실행되는 동작을 설정
@@ -189,9 +188,9 @@ componentWillUnmount() {
 
 ```javascript
 useEffect(() => {
-  interval.current = setInterval(changeHand, 200);
-    return () => { 
-      clearInterval(interval.current);
+    interval.current = setInterval(changeHand, 200); // componentDidMount
+    return () => {
+        clearInterval(interval.current); //componentWillUnmount
     }
-}, [ imgCoord ]); 
+}, [computerChoice]); // componentDidUpdate
 ```

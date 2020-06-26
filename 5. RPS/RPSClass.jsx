@@ -48,7 +48,7 @@ class RPS extends Component {
         }
     }
 
-    onClickButton(userChoice) {
+    onClickButton = (userChoice) => () => {
         const { computerChoice } = this.state;
         clearInterval(this.interval);
 
@@ -88,9 +88,9 @@ class RPS extends Component {
                 <div id="computer" style={{backgroundPosition: `${rspCoords[computerChoice]} center`}}></div>
                 <div className="result">{result}</div>
                 <div>
-                    <button id="rock" className="button" onClick={() => this.onClickButton('rock')}>rock</button>
-                    <button id="scissors" className="button" onClick={() => this.onClickButton('scissors')}>scissors</button>
-                    <button id="paper" className="button" onClick={() => this.onClickButton('paper')}>paper</button>
+                    <button id="rock" className="button" onClick={this.onClickButton('rock')}>rock</button>
+                    <button id="scissors" className="button" onClick={this.onClickButton('scissors')}>scissors</button>
+                    <button id="paper" className="button" onClick={this.onClickButton('paper')}>paper</button>
                 </div>
                 <div className="score">Score : {score}</div>
             </div>
