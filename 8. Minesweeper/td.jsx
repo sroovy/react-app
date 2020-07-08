@@ -1,4 +1,4 @@
-import React, { useContext, useCallback } from 'react';
+import React, { useContext, useCallback, memo, useMemo } from 'react';
 import { TableContext, CODE, OPEN_CELL, CLICK_MINE, FLAG_CELL, QUESTION_CELL, NORMALIZE_CELL } from './Minesweeper';
 
 const getTdStyle = (code) => {
@@ -32,6 +32,8 @@ const getTdStyle = (code) => {
 };
 
 const getTdText = (code) => {
+   console.log('getTdText');
+   
    switch(code){
       case CODE.NORMAL:
          return '';
@@ -51,7 +53,7 @@ const getTdText = (code) => {
 }
 
 
-const Td = ({ rowIndex, cellIndex }) => {
+const Td = memo(({ rowIndex, cellIndex }) => {
     const { tableData, dispatch, halted } = useContext(TableContext);
 
 
@@ -106,14 +108,17 @@ const Td = ({ rowIndex, cellIndex }) => {
       }
 
    }, [tableData[rowIndex][cellIndex], halted]);
+   // console.log('td rendered') 100번실행됨
+   // 함수 자체는 실행되도 return 부분만 캐싱을 해주면 된다. 
+   // 값을 캐싱하는 useMemo를 사용한다. 
 
-   return (
+   return useMemo(() => (
    <td
       style={getTdStyle(tableData[rowIndex][cellIndex])}
       onClick={onClickTd}
       onContextMenu={onRightClickTd}
    >{getTdText(tableData[rowIndex][cellIndex])}</td>
-   )
-};
+   ), [tableData[rowIndex][cellIndex]]);
+});
 
 export default Td;
