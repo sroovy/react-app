@@ -121,3 +121,37 @@ class GameMatcher extends Component {
 }
 
 export default withRouter(GameMatcher);
+
+
+history: 앞으로 가기 뒤로가기 내역이 저장되어있다. 
+프로그래밍적으로 부를 수 있다. goBack, push 등등
+
+
+match :
+pararams에 연결된 주소 정보 -> 분기 처리 
+-> this.props.match.params.name === '???'
+
+location : 주소, search, hatch 
+
+
+브라우저에서 제공하고 react 라우터에서 사용한다. 
+history.pushState('', '', './hello'); 브라우저 주소를 바꿀 수 있다. 
+this.props.history 와는 다르다. 
+
+* history 각각의 역할과 의존관계를 정리 
+
+
+쿼리스트링 
+주소에 데이터를 전달하는 가장 쉬운 방법
+주소에 대한 부가적인 데이터들의 전달을 서버도 인식 
+쿼리스트링에 대한 정보는
+location의 search부분에 저장되어 있다. 
+주로 게시판 구현할때 
+새로고침을 했을 때 
+
+리액트라우터에서는 쿼리스트링을 해석하는걸 제공하지 않기 때문에 URLSearchParams을 사용하는 것이 좋다. 
+
+let urlSearchParams = new URLSearchParams(this.props.location.search.slice(1));
+        console.log(urlSearchParams.get('hello'));
+
+
