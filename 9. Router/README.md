@@ -1,40 +1,44 @@
+# 9. Router 
 
-웹과 앱에서 사용 가능하다. 
-
-1. react router 설치
-* 기본적인것들만 모여있다. 
-> npm i react-router
-
-
-2. react router dom 설치
-* 웹에서 쓰는 라이브러리
+## 1. install
+* react router dom 설치
 > npm i react-router-dom
 
-* 우리가 실제로 사용하는 라이브러리는 react router dom 이고 
-react router는 react router dom이 필요로 하는 라이브러리
-
-import { BrowserRouter } from 'react-router-dom';
-import { HashRouter } from 'react-router-dom';
-
-최상위를 감싸준다
-
+## 2. 라우터 적용
+* BrowserRouter 또는 HashRouter를 불러와 감싸준다.
+* **BrowserRouter**
+    * http://localhost:8080/number-baseball에서 새로고침을 하면 Cannot GET /number-baseball 에러가 뜬다 → 실제로는 페이지가 여러개 있지 않다는 증거
+    * 새로 고침을 하거나 주소창에 주소를 입력하는 것은 서버쪽에 요청을 보내는 일이다. 서버에서는 응답하지 않기 때문에 서버쪽에서 페이지가 존재한다는 사실을 인식하기 위한 추가적인 세팅이 필요하다. 
+    * 서버쪽 세팅을 했다는 전제하에 검색엔진이 인식한다. (SEO)
+* **HashRouter**
+    * http://localhost:8080/#/ : 주소창에  #(해쉬)가 들어있다.
+    * 장점 : 새로고침을 해도 에러가 나지 않는다. # 뒤에 부분은 브라우저만 인식하는 부분. 서버는 인식하지 못한다. 
+    * 단점 : 서버가 인식하지 못하기 때문에 SEO(검색엔진최적화)에 좋지 않다. (검색엔진은 서버에 요청한다.) 
 ```javascript
+import { BrowserRouter, HashRouter } from 'react-router-dom';
+
 const Games = () => {
     return (
         <BrowserRouter>
-            
+            ...
         </BrowserRouter>
     )
 }
-
-// 또는 
+// 또는
 ReactDom.render(<BrowserRouter><Hot /></BrowserRouter>, document.querySelector("#root"));
 
 ```
 
+## 3. Route
+* 라우트로 사용 할 페이지 컴포넌트를 만든다. 
+* 가상의 페이지 주소에 각각 컴포넌트를 연결한다. 
 
-가상의 페이지 주소를 만들어서 각각 컴포넌트를 연결
+> <Route path="주소규칙" component={연결할 컴포넌트}>
 ```javascript
+import NumberBaseball from '../3. numberbaseball/NumberBaseballHooks';
+import RPS from '../5. RPS/RPShooks';
+import Lotto from '../6. Lotto/LottoHooks';
+
 const Games = () => {
     return (
         <BrowserRouter>
@@ -49,109 +53,114 @@ const Games = () => {
 }
 ```
 
-리액트 라우터가 여러개 페이지를 동시에 렌더링을 해준다. 
+## 4. Link
+* 클릭하면 다른 주소로 이동시킨다. 
+* a태그와 비슷한 기능을 하지만, 다른 페이지로 이동시키는게 아니라 Route 부분을 불러주는 역할을 한다. 
+```javascript 
+const Games = () => {
+    return (
+        <BrowserRouter>
+            {/* 공통인 부분 : 페이지가 바껴도 변하지 않는다.  */}
+            <div>
+                <Link to ="/number-baseball">숫자야구</Link><br />
+                <Link to ="/rock-scissors-paper">가위바위보</Link><br />
+                <Link to ="/lottery">로또 생성기</Link>
+            </div>
+            {/* 화면이 바뀌는 부분 */}
+            <div>                
+                <Route path="/number-baseball" component={NumberBaseball}/>                
+                <Route path="/rock-scissors-paper" component={RPS}/>                
+                <Route path="/lottery" component={Lotto}/>
+            </div>
+        </BrowserRouter>
+    )
+```
 
-
-
-2. 링크와 브라우저 라우터
-** 리액트 라우터는 눈속임이다...
-페이지가 여러개 있는것처럼 보이는것. 
-
-a태그와 같은 기능을 하는
-Link to 로 연결 
-다른 페이지로 넘어가는 게 아니라 Route 부분을 불러주는 역할
-
-
-http://localhost:8080/number-baseball 에서 새로고침을 하면
-Cannot GET /number-baseball 문구가 뜬다 
--> 실제로는 페이지가 여러개 있지 않다는 증거 -> 
-
-새로고침을 하거나 주소창에 주소를 입력하는 것은
-서버쪽에 요청을 보내는 일이다. 
-따라서 서버에서는 응답 X -> 에러 문구 
-서버쪽에서 추가적인 세팅이 필요하다
-서버에 페이지가 존재한다는 사실을 알려줘야한다. 
-
-서버쪽 세팅을 했다는 전제 하에 검색엔진이 인식 
-
-
-프론트엔드인 리액트 라우터만 알고 있다. 
--> client side rendering
-** 브라우저 라우터를 사용해도 SEO를 위해 따로 세팅이 필요하다. 
-
-HashRouter
-주소창에 http://localhost:8080/#/
-#(해쉬)가 들어있다. 
-
-장점 : 새로고침을 해도 화면이 보인다. 
-(#) 뒤에 부분은 브라우저만 인식하는 부분. 서버가 인식을 하지 못한다. 
-
-단점 : 서버가 인식하지 못하기 때문에 검색엔진 
-SEO(검색엔진최적화) 할때 불이익을 받는다. 
-검색엔진이 서버에 요청을 하기 때문
-실무에서는 잘 쓰지 않는다. 
-
-
-라우트가 양이 방대해질때
-dynamic router matching 
-효율적으로 라우터 갯수를 관리할 수 있다. 
-
-
+## 5. params
+* 페이지 주소를 정의 할 때, 유동적인 값을 전달해야 할 때 사용
+* **dynamic router matching** : 라우트가 양이 방대해질때 효율적으로 라우트 갯수를 관리할 수 있다. 
+* Game Component
+```javascript
 <Route path="/game/:name" component={GameMatcher}/>
+```
 
-:name : 파라미터 params
-동적으로 바뀐다. 
+## 5. 쿼리스트링
+* 주소에 데이터를 전달하는 가장 쉬운 방법
+* 주소에 대한 부가적인 데이터들의 전달을 서버도 인식한다. 
+* 쿼리스트링에 대한 정보는 location의 search부분에 저장되어 있다. 
+* 주로 게시판 구현할때 새로고침을 했을 때 
+* 리액트라우터에서는 쿼리스트링을 해석하는걸 제공하지 않기 때문에 **URLSearchParams**을 사용하는 것이 좋다. 
 
-라우트 컴포넌트가 게임매처에 props를 넣어준다. 
 
-
-라우트가 아닌 컴포넌트에서 라우터에서 사용하는 객체 - location, match, history 를 사용하려면, withRouter 라는 HoC 를 사용해야합니다.
-undefined 경우 : 
-
+## 6. withRouter HoC
+* 라우트가 아닌 컴포넌트에서 라우터에서 사용하는 객체 - location, match, history 를 사용하려면, withRouter 라는 HoC 를 사용해야 한다. 
+```javascript
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 
 class GameMatcher extends Component {
     render() {
-        console.log(this.props.history, this.props.match)
         return (
             <div>GameMatcher</div>
         )
     }
 }
-
 export default withRouter(GameMatcher);
+```
 
-
-history: 앞으로 가기 뒤로가기 내역이 저장되어있다. 
+* **history** : 앞으로 가기 뒤로가기 내역이 저장되어있다. 
 프로그래밍적으로 부를 수 있다. goBack, push 등등
 
+* **match** :
+pararams에 연결된 주소 정보로 분기 처리할 때 사용할 수 있다.  
+this.props.match.params.name === '???'
 
-match :
-pararams에 연결된 주소 정보 -> 분기 처리 
--> this.props.match.params.name === '???'
+* **location** : 주소, search, hatch 
 
-location : 주소, search, hatch 
-
-
-브라우저에서 제공하고 react 라우터에서 사용한다. 
-history.pushState('', '', './hello'); 브라우저 주소를 바꿀 수 있다. 
-this.props.history 와는 다르다. 
-
-* history 각각의 역할과 의존관계를 정리 
-
-
-쿼리스트링 
-주소에 데이터를 전달하는 가장 쉬운 방법
-주소에 대한 부가적인 데이터들의 전달을 서버도 인식 
-쿼리스트링에 대한 정보는
-location의 search부분에 저장되어 있다. 
-주로 게시판 구현할때 
-새로고침을 했을 때 
-
-리액트라우터에서는 쿼리스트링을 해석하는걸 제공하지 않기 때문에 URLSearchParams을 사용하는 것이 좋다. 
-
-let urlSearchParams = new URLSearchParams(this.props.location.search.slice(1));
+* GameMatcher Component
+```javascript
+class GameMatcher extends Component {
+    render() {
+        let urlSearchParams = new URLSearchParams(this.props.location.search.slice(1));
         console.log(urlSearchParams.get('hello'));
+        if (this.props.match.params.name === 'number-baseball'){
+            return <NumberBaseball />
+        } else if(this.props.match.params.name === 'rock-scissors-paper'){
+            return <RPS />
+        } else if(this.props.match.params.name === 'lottery'){
+            return <Lotto />
+        }
+        return (
+            <div>
+                일치하는 게임이 없습니다. 
+            </div>
+        )
+    }
+}
+```
+
+## 7. Switch
+* 첫번째로 일치하는 것만 렌더링 된다. 
+* 상위 주소와 하위 주소가 있는 경우 상위 주소도 일치한걸로 인식한다. 
+* **exact** 정확하게 주소가 일치하는 것만 연결 
+ <Route exact path="/game/number-baseball" render={(props) => <GameMatcher {...props}/>}/>
+
+```javascript
+<Switch>
+    <Route exact path="/" render={(props) => <GameMatcher {...props} />} />
+    <Route path="/game/:name" render={(props) => <GameMatcher {...props} />} />
+</Switch>
+```
+
+
+### Games에서 GameMatcher로 props넘기기
+* component
+```javascript
+<Route path="/game/:name" component={() => <GameMatcher props="value" /> }/>
+```
+* render **
+```javascript
+<Route path="/game/:name" render={(props) => <GameMatcher props={props.abc} /> }/>
+```
 
 

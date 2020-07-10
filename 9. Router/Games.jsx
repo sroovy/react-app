@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter, HashRouter, Route, Link } from 'react-router-dom';
+import { BrowserRouter, HashRouter, Route, Link, Switch } from 'react-router-dom';
 import GameMatcher from './GameMatcher';
 
 
@@ -15,7 +15,10 @@ const Games = () => {
             </div>
             {/* 화면이 바뀌는 부분 */}
             <div>
-                <Route path="/game/:name" component={GameMatcher}/>
+                <Switch>
+                    <Route exact path="/" render={(props) => <GameMatcher {...props} />} />
+                    <Route path="/game/:name" render={(props) => <GameMatcher {...props} />} />
+                </Switch>
             </div>
         </BrowserRouter>
     )
