@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pair matching card</title>
+    <style>
+        .card {
+            display: inline-block;
+            margin: 0 10px 10px 0;
+            width: 100px;
+            height: 150px;
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transform-style: preserve-3d;
+            transition: transform 0.8s;
+        }
+        .card.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+        .card-front {
+            background-color: sandybrown;
+        }
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+        }
+        .card-back{
+            transform: rotateY(180deg);
+            background-color: steelblue;
+        }
+
+    </style>
+</head>
+<body>
+    <script src="./index.js"></script>
+</body>
+</html>
