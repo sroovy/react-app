@@ -3,6 +3,8 @@ const column = 3;
 const colorCandidate = [ 'red', 'red', 'orange', 'orange', 'yellow', 'yellow', 'green', 'green', 'blue', 'blue', 'purple', 'purple' ];
 let color = [];
 let clickFlag = true; // 카드를 미리 보여주는 동안 클릭할 수 없게 설정하는 변수
+let clickCard = []; // 클릭된 카드를 비교
+let pairedCard = [];
 
 // 컬러를 랜덤으로 섞어준다 Fisher–Yates shuffle 알고리즘
 for(let i = 0; colorCandidate.length > 0; i++){
@@ -25,8 +27,26 @@ const cardSetting = (row, column) => {
         cardInner.appendChild(cardBack);
         card.appendChild(cardInner); 
         card.addEventListener("click", () => {
-            if(clickFlag){
+            if(clickFlag && !pairedCard.includes(card)){ // pairedCard에 포함이 되지 않으면 클릭이 가능하다! 
                 card.classList.toggle('flipped');
+                clickCard.push(card);
+                if(clickCard.length === 2){
+                    if(clickCard[0].querySelector('.card-back').getAttribute('style') === clickCard[1].querySelector('.card-back').getAttribute('style')){
+                        pairedCard.push(clickCard[0]);
+                        pairedCard.push(clickCard[1]);
+                        clickCard = [];
+                        console.log(pairedCard);
+                    } else {
+                        clickFlag = false;
+                        setTimeout(() => {
+                            clickCard[0].classList.remove('flipped');
+                            clickCard[1].classList.remove('flipped');
+                            clickFlag = true;
+                            clickCard = [];
+                        }, 1000)
+                    }
+                   
+                } 
             }
         });
         document.body.appendChild(card);
